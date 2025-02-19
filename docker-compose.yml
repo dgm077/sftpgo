@@ -4,8 +4,8 @@ services:
     user: 1000:1000
     container_name: SFTPGo
     ports:
-      - 8080:8080 # HTTP
-      - 2022:2022 # SFTP
+      - "8080:8080": # HTTP
+      - "2022:2022" # SFTP
     networks:
       - sftpgonet
     environment:
