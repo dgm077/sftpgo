@@ -1,0 +1,45 @@
+services:
+  sftpgo:
+    image: drakkan/sftpgo:latest
+    user: 1000:1000
+    container_name: SFTPGo
+    ports:
+      - 8080:8080 # HTTP
+      - 2022:2022 # SFTP
+    networks:
+      - sftpgonet
+    environment:
+      SFTPGO_WEBDAVD__BINDINGS__0__PORT: 5007
+      SFTPGO_DATA_PROVIDER__DRIVER: mysql
+      SFTPGO_DATA_PROVIDER__NAME: sftpgo
+      SFTPGO_DATA_PROVIDER__HOST: mysql
+      SFTPGO_DATA_PROVIDER__PORT: 3306
+      SFTPGO_DATA_PROVIDER__USERNAME: marius
+      SFTPGO_DATA_PROVIDER__PASSWORD: mariushosting
+      SFTPGO_COMMON__DEFENDER__ENABLED: true
+      SFTPGO_COMMON__DEFENDER__BAN_TIME: 15
+      SFTPGO_COMMON__DEFENDER__BAN_TIME_INCREMENT: 100
+      SFTPGO_COMMON__DEFENDER__THRESHOLD: 5
+      SFTPGO_COMMON__DEFENDER__OBSERVATION_TIME: 15
+    volumes:
+      - /root/docker/sftpgo/sftpgo-data:/srv/sftpgo:rw
+      - /root/docker/sftpgo/sftpgo-home:/var/lib/sftpgo
+    restart: on-failure:8
+
+  mysql:
+    image: mariadb:11.4-noble
+    container_name: SFTPGo-DB
+    networks:
+     - sftpgonet
+    environment:
+      TZ: Europe/Berlin
+      MYSQL_DATABASE: sftpgo
+      MYSQL_USER: marius
+      MYSQL_PASSWORD: mariushosting
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - /root/docker/sftpgo/db:/var/lib/mysql:rw
+    restart: on-failure:5
+networks:
+  sftpgonet:
+    driver: bridge
