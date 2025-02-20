@@ -22,8 +22,8 @@ services:
       SFTPGO_COMMON__DEFENDER__THRESHOLD: 5
       SFTPGO_COMMON__DEFENDER__OBSERVATION_TIME: 15
     volumes:
-      - /home/ubuntu/docker/sftpgo/sftpgo-data:/srv/sftpgo:rw
-      - /home/ubuntu/docker/sftpgo/sftpgo-home:/var/lib/sftpgo
+      - ./sftpgo-data:/srv/sftpgo:rw
+      - ./sftpgo-home:/var/lib/sftpgo
     restart: on-failure:8
 
   mysql:
@@ -38,7 +38,7 @@ services:
       MYSQL_PASSWORD: mariushosting
       MYSQL_ROOT_PASSWORD: rootpass
     volumes:
-      - /home/ubuntu/docker/sftpgo/db:/var/lib/mysql:rw
+      - ./db:/var/lib/mysql:rw
     restart: on-failure:5
 networks:
   sftpgonet:
