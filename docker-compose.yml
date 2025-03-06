@@ -7,9 +7,8 @@ services:
       - "8080:8080" # HTTP
       - "2022:2022" # SFTP
     networks:
-      - sftpgonet
+      - sftpgo-net
     environment:
-      SFTPGO_WEBDAVD__BINDINGS__0__PORT: 5007
       SFTPGO_DATA_PROVIDER__DRIVER: mysql
       SFTPGO_DATA_PROVIDER__NAME: sftpgo
       SFTPGO_DATA_PROVIDER__HOST: mysql
@@ -18,7 +17,7 @@ services:
       SFTPGO_DATA_PROVIDER__PASSWORD: mariushosting
       SFTPGO_COMMON__DEFENDER__ENABLED: true
       SFTPGO_COMMON__DEFENDER__BAN_TIME: 15
-      SFTPGO_COMMON__DEFENDER__BAN_TIME_INCREMENT: 100 
+      SFTPGO_COMMON__DEFENDER__BAN_TIME_INCREMENT: 100
       SFTPGO_COMMON__DEFENDER__THRESHOLD: 5
       SFTPGO_COMMON__DEFENDER__OBSERVATION_TIME: 15
     volumes:
@@ -30,7 +29,7 @@ services:
     image: mariadb:11.4-noble
     container_name: SFTPGo-DB
     networks:
-     - sftpgonet
+      - sftpgo-net
     environment:
       TZ: Europe/Berlin
       MYSQL_DATABASE: sftpgo
@@ -41,5 +40,5 @@ services:
       - ./db:/var/lib/mysql:rw
     restart: on-failure:5
 networks:
-  sftpgonet:
+  sftpgo-net:
     driver: bridge
